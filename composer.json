@@ -1,6 +1,6 @@
 {
     "name": "xrow/bug-reporting-bundle",
-    "description": "A short description of nothing",
+    "description": "eZ Bug Reporting Tool",
     "require": {
         "php": "~5.5|~7.0",
         "symfony/symfony": "~2.7.0",
