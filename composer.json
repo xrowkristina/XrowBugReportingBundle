@@ -1,0 +1,12 @@
+{
+    "name": "xrow/bug-reporting-bundle",
+    "description": "A short description of nothing",
+    "require": {
+        "php": "~5.5|~7.0",
+        "symfony/symfony": "~2.7.0",
+        "ezsystems/ezpublish-kernel": "~6.3@rc"
+    },
+	"extra": {
+	    "symfony-assets-install": "relative"
+	}
+}

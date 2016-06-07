@@ -1,0 +1,13 @@
+{% extends 'BugReportingBundle::base.html.twig' %}
+
+{% block main %}
+
+	<div></h3>
+    <div class="alert alert-warning">
+        <strong>Error: File not found</strong>
+    </div>
+ 	<p>
+		<a class="btn btn-warning" href="{{ path('_xrow_bug_reporting_home') }}">&laquo; Try again</a>
+	</p>
+
+{% endblock %}

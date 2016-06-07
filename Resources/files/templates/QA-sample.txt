@@ -1,0 +1,17 @@
+======================================================
+    		xrow System Information Files
+    			- QA eZ System Bug Report 
+======================================================
+
+Q: Do you clear cache?
+A: Yes
+
+Q: Do you have cluster in use?
+A: Yes
+
+Q: Is your installation up to date?
+A: Yes
+
+Q: Was the error noticed on a production server, or a staging/dev environment?
+A: Yes
+

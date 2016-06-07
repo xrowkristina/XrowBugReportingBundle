@@ -1,0 +1,16 @@
+======================================================
+    		xrow - eZ Bug System Information Files
+======================================================
+
+What you will find:
+- README.md                     This file
+- QA.txt                        File with Questions&Answers
+- phpinfo.html                  Complete PHP information
+- SystemInformation.txt         PHP version, PHP Accelerator, etc information
+- InstalledComposer.json        Installed Composer
+- composer.json                 Current Composer
+- FolderPermissionRoot.txt      Permissions for folders in installed eZ-directory
+- FolderPermissionWeb.txt       Permissions for folders in /web directory
+- FolderPermissionApp.txt       Permissions for folders in /app directory
+- /config                       All relevante .yml files from /app/config  directory
+- /logs                         All relevante .log files from /app/logs  directory

@@ -1,0 +1,23 @@
+parameters:
+    xrow.bugreporting.zip_folder: "/cache/dev/eZbugReporting"
+    xrow.bugreporting.zip_file: "support-xrow-.zip"
+    filetypes:
+      - md
+      - html
+      - txt
+
+services:
+    xrow.bug_reporting_utils:
+        class: Xrow\BugReportingBundle\Utils\BugReportingUtils
+        arguments: ["@service_container"]
+
+    xrow.bug_reporting_data_collector:
+        class: Xrow\BugReportingBundle\Collector\XrowDataCollector
+        arguments: ["@service_container"]
+        tags:
+            -
+                name: data_collector
+                template: "BugReportingBundle:Profiler:layout"
+                id: xrow.bug_data_collector
+                priority: -10
+        public: false

@@ -1,0 +1,24 @@
+{% extends 'BugReportingBundle::base.html.twig' %}
+
+{% block main %}
+
+	{% if not issue_number %}
+	Enter Issue/Ticket number
+	{% else %}
+	<h3>Zipfile generated succesfully!!</h3>
+	<ol>
+		<li>Download the Zipfile from the Web Debug Toolbar</li>
+		{% if not issue_number %}
+		{% elseif issue_number == 'none' %}
+		{% else %}
+		<li>Ticket/Issue: {{ issue_number }}</li>
+		{% endif %}
+	</ol>
+
+{# 	{{ dump(summary) }} #}
+ 	<p>
+		<a class="btn btn-warning" href="{{ path('_xrow_bug_reporting_home') }}">&laquo; Create new</a>
+	</p>
+	{% endif %}
+
+{% endblock %}
