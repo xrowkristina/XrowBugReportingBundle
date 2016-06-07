@@ -1,12 +1,18 @@
 {
     "name": "xrow/bug-reporting-bundle",
-    "description": "eZ Bug Reporting Tool",
+    "description": "Creates a ZIP file with system information for eZ 5.4/6.x",
+    "type": "symfony-bundle",
+    "homepage": "http://www.xrow.de",
+    "license": "MIT",
     "require": {
         "php": "~5.5|~7.0",
         "symfony/symfony": "~2.7.0",
         "ezsystems/ezpublish-kernel": "~6.3@rc"
     },
-	"extra": {
-	    "symfony-assets-install": "relative"
-	}
+    "autoload": {
+        "psr-4": { "Xrow\\BugReportingBundle\\": ""}
+    },
+    "extra": {
+        "symfony-assets-install": "relative"
+    }
 }
