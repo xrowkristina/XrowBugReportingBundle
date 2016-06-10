@@ -13,8 +13,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": "~5.5|~7.0",
-        "symfony/symfony": "~2.7.0",
-        "ezsystems/ezpublish-kernel": "~6.3@rc"
+        "ezsystems/ezpublish-legacy-installer": "*"
     },
     "autoload": {
         "psr-4": { "Xrow\\BugReportingBundle\\": ""}
