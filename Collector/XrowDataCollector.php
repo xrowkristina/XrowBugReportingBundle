@@ -1,10 +1,5 @@
 <?php
 
-/**
- * File containing the XrowDataCollector class.
- *
- */
-
 namespace Xrow\BugReportingBundle\Collector;
 
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;

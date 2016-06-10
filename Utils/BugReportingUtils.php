@@ -74,6 +74,7 @@ class BugReportingUtils
         $this->collectYamlFiles();
         $this->collectComposerJsonFile();
         $this->collectLogFiles();
+        $this->collectEzLegacyFiles();
 
         $this->collectFiles($this->destination_dir, array("md", "txt", "html"));
     }
@@ -218,16 +219,18 @@ class BugReportingUtils
     }
 
     /**
-     * Retrieves all .log files from /logs folder
+     * Retrieves all *.ini/*.php files from /ezpublish_legacy folder, if exists
      * @return [type] [description]
      */
-    public function collectLogFiles()
+    public function collectEzLegacyFiles()
     {
-        $folder = array($this->app_root.'/ezpuiblish_legacy/settings');
-        $files_found = $this->findFiles($folder, array("log"));
+        $folder = array($this->app_root.'/../ezpublish_legacy/settings/', $this->app_root.'/../ezpublish_legacy/settings/override');
+        $files_found = $this->findFiles($folder, array("ini", "php"));
 
         if($files_found)
             $this->file_list = array_merge($this->file_list, $files_found);
+        $this->filterZipfileList();
+        $this->debug($this->zipfile_destination);
     }
     /**
      * Collect and store all relevant information files
@@ -309,7 +312,7 @@ class BugReportingUtils
     }
 
     /**
-     * Search and save filetype in folder
+     * Search and save filetype in folder, if the directory and files exist
      * @param  array  $directory    folder to find files
      * @param  array  $filetype     filetype to match
      * @param  array  $ignore_files list of files to ignore
@@ -321,6 +324,9 @@ class BugReportingUtils
         $filetype = is_array($filetype) ? implode('|', $filetype) : $filetype;
         $ignore_files = is_array($ignore_files) ? $ignore_files : [];
 
+        $fs = new Filesystem();
+        if(!$fs->exists($directory))
+            return $found_files;
         $finder = new Finder();
         $finder = $finder->files()->ignoreUnreadableDirs()->in($directory);
 
@@ -357,6 +363,22 @@ class BugReportingUtils
         return $found_files;
     }
 
+    public function filterZipfileList()
+    {
+        $this->zipfile_destination = [];
+        foreach ($this->file_list as $file) {
+            if (is_file($file) && $file !== $this->destination_dir.'/'.$this->zip_filename ) {
+                $destinationDir = basename($file);
+                if(preg_match("/config|logs|ezpublish\_legacy/", $file)) {
+                    $destinationDir = str_replace($this->app_root."/", "", $file);
+                    if(preg_match("/ezpublish\_legacy/", $file)) {
+                        $destinationDir = str_replace(str_replace("/app", "", $this->app_root)."/", "", $file);
+                    }
+                }
+                $this->zipfile_destination[] = array("orig" => $file, "dest" => $destinationDir);
+             }
+        }
+    }
     /**
      * Create ZIP file
      * @param  boolean $file_list list of files to add
@@ -364,29 +386,23 @@ class BugReportingUtils
     public function createZipFile($file_list = false)
     {
         $zip = new ZipArchive;
-        $this->modifyZipfile();
+        $this->changeZipfileName();
+        $this->filterZipfileList();
         $zip_file = $this->destination_dir.'/'.$this->zip_filename;
 
         if ($zip->open($zip_file, ZIPARCHIVE::CREATE) === true) {
-          foreach ($file_list as $file) {
-            if ($file !== $zip_file && is_file($file)) {
-                if(preg_match("/config|logs/", $file)) {
-                    $destFileFolder = str_replace($this->app_root."/", "", $file);
-                    $zip->addFile($file, $destFileFolder);
-                } else {
-                    $zip->addFile($file, basename($file));
-              }
-            }
+          foreach ($this->zipfile_destination as $zipfile) {
+              $zip->addFile($zipfile["orig"], $zipfile["dest"]);
           }
         $zip->close();
         }
     }
 
     /**
-     * Filter to modify the ZIP file
+     * Filter to modify the ZIP file name
      * @return string   new file name
      */
-    public function modifyZipfile()
+    public function changeZipfileName()
     {
         $this->zip_filename  = str_replace(".zip", $this->file_suffix.".zip", $this->zip_filename);
         if($this->issue_number !== 'none')

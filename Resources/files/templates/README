@@ -1,6 +1,6 @@
-======================================================
+==============================================================
     		xrow - eZ Bug System Information Files
-======================================================
+==============================================================
 
 What you will find:
 - README.md                     This file
@@ -14,3 +14,4 @@ What you will find:
 - FolderPermissionApp.txt       Permissions for folders in /app directory
 - /config                       All relevante .yml files from /app/config  directory
 - /logs                         All relevante .log files from /app/logs  directory
+- /ezpublish_legacy/settings    Settings files for eZ System 5.4
