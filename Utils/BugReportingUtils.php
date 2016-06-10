@@ -229,8 +229,6 @@ class BugReportingUtils
 
         if($files_found)
             $this->file_list = array_merge($this->file_list, $files_found);
-        $this->filterZipfileList();
-        $this->debug($this->zipfile_destination);
     }
     /**
      * Collect and store all relevant information files

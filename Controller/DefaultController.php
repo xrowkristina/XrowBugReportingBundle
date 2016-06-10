@@ -21,7 +21,6 @@ class DefaultController extends Controller
     {
         $utils = $this->container->get('xrow.bug_reporting_utils');
         $utils->cleanZipFolder();
-        $utils->collectEzLegacyFiles();
 
         return $this->render('BugReportingBundle:Default:index.html.twig', array(
             'summary' => $this->summary,
