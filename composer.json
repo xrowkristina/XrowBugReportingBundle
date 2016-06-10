@@ -4,6 +4,13 @@
     "type": "symfony-bundle",
     "homepage": "http://www.xrow.de",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "xrow GmbH",
+            "homepage": "http://www.xrow.com"
+        }
+    ],
+    "minimum-stability": "dev",
     "require": {
         "php": "~5.5|~7.0",
         "symfony/symfony": "~2.7.0",
