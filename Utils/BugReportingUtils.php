@@ -45,6 +45,14 @@ class BugReportingUtils
         $this->createZipFile( $this->file_list );
         $this->cleanUpFolder();
     }
+    public function runCommand($issue_number = false, $dest)
+    {
+        $this->new_destination = $dest;
+        $this->run($issue_number);
+        if(is_dir($dest)) {
+            $this->copyZipFile();
+        }
+    }
 
     public function getInfoData()
     {
@@ -127,8 +135,9 @@ class BugReportingUtils
      */
     public function getEzPublishComponents()
     {
+        $info = $this->app_root;
         // Use parent dir, as composer.json is in parent dir and not in /app or /web
-        $info = $this->runProcess("composer info --working-dir=../ | grep ez");
+        // $info = $this->runProcess("composer info | grep ez");
 
         $this->summary["eZPublish components:"] = $info."\n\n";
     }
@@ -181,7 +190,7 @@ class BugReportingUtils
     }
 
     /**
-     * [collectInstalledComposerJson description]
+     * Collect all .json from /app and /vendor/composer folder
      * @return [type] [description]
      */
     public function collectInstalledComposerJson()
@@ -229,6 +238,8 @@ class BugReportingUtils
 
         if($files_found)
             $this->file_list = array_merge($this->file_list, $files_found);
+        $this->filterZipfileList();
+
     }
     /**
      * Collect and store all relevant information files
@@ -361,6 +372,10 @@ class BugReportingUtils
         return $found_files;
     }
 
+    /**
+     * Basically tries to separate files from folders to be stored in ZIP
+     * @return array    arra("orig", "dest")
+     */
     public function filterZipfileList()
     {
         $this->zipfile_destination = [];
@@ -377,6 +392,7 @@ class BugReportingUtils
              }
         }
     }
+
     /**
      * Create ZIP file
      * @param  boolean $file_list list of files to add
@@ -405,6 +421,17 @@ class BugReportingUtils
         $this->zip_filename  = str_replace(".zip", $this->file_suffix.".zip", $this->zip_filename);
         if($this->issue_number !== 'none')
             $this->zip_filename  = str_replace("-xrow-", "-xrow-issue".$this->issue_number."-", $this->zip_filename);
+    }
+
+    public function copyZipFile()
+    {
+        if(isset($this->new_destination)) {
+            try {
+                $this->runProcess("cp ".$this->destination_dir.'/'.$this->zip_filename." ".$this->new_destination);
+            } catch (IOExceptionInterface $e) {
+                echo "An error occurred while copying file to ".$e->getPath();
+            }
+        }
     }
 
     /**
@@ -474,7 +501,7 @@ class BugReportingUtils
         $fs = new Filesystem();
 
         foreach($this->file_list as $file) :
-            if ( eregi($this->destination_dir, $file))
+            if ( preg_match('#^'.$this->destination_dir.'/#', $file))
                 $fs->remove($file);
         endforeach;
     }
