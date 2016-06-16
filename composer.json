@@ -10,14 +10,10 @@
             "homepage": "http://www.xrow.com"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php": "~5.5|~7.0"
     },
     "autoload": {
         "psr-4": { "Xrow\\BugReportingBundle\\": ""}
-    },
-    "extra": {
-        "symfony-assets-install": "relative"
     }
 }
