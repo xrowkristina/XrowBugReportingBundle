@@ -15,8 +15,8 @@ What you will find inside the ZIP:
 - __FolderPermissionRoot.txt__ file with permissions for folders in installed eZ-directory
 - __FolderPermissionWeb.txt__ file with permissions for folders in /web directory
 - __FolderPermissionApp.txt__ file with permissions for folders in /app directory
-- __/config__ folde with all relevante .yml files from /app/config  directory
-- __/logs__ folder with all relevante .log files from /app/logs  directory
+- __/config__ folde with all relevant .yml files from /app/config  directory
+- __/logs__ folder with all relevant .log files from /app/logs  directory
 - __/ezpublish_legacy/settings__ folder with all relevant settings for eZ Publish 5.4
 
 ### Usage:
