@@ -18,3 +18,9 @@ What you will find inside the ZIP:
 - __/config__ folde with all relevante .yml files from /app/config  directory
 - __/logs__ folder with all relevante .log files from /app/logs  directory
 - __/ezpublish_legacy/settings__ folder with all relevant settings for eZ Publish 5.4
+
+## Usage
+
+```php
+$ php ezpublish/console bugreporting:create --dest=destination-dir
+```
