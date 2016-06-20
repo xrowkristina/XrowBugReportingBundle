@@ -291,14 +291,17 @@ class BugReportingUtils
 
         $this->createCopiedFile($originalFile, $newFile);
     }
-
+    /**
+     * Returns phpinfo() as HTML
+     * @return var      phpinfo in html format
+     */
     public function getPhpinfoHtml()
     {
-    ob_start();
-    phpinfo();
-    $info = ob_get_contents();
-    ob_end_clean();
-    return $info;
+        ob_start();
+        phpinfo();
+        $info = ob_get_contents();
+        ob_end_clean();
+        return $info;
     }
 
     /**
