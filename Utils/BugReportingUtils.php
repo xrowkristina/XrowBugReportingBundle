@@ -32,7 +32,9 @@ class BugReportingUtils
         $this->file_suffix = date("Y.m.d.Hi");
         $this->zip_filename = $this->container->getParameter('xrow.bugreporting.zip_file');
         $this->app_root = $this->container->getParameter('kernel.root_dir');
+        $this->parent_workdir = "../";
         $this->destination_dir = $this->app_root . $this->container->getParameter('xrow.bugreporting.zip_folder');
+        $this->site_root = preg_replace("/\/app|\/ezpublish/", "", $this->app_root);
     }
 
     public function run($issue_number)
@@ -47,6 +49,7 @@ class BugReportingUtils
     }
     public function runCommand($issue_number = false, $dest)
     {
+        $this->parent_workdir = "./";
         $this->new_destination = $dest;
         $this->run($issue_number);
         if(is_dir($dest)) {
@@ -137,7 +140,7 @@ class BugReportingUtils
     {
         $info = $this->app_root;
         // Use parent dir, as composer.json is in parent dir and not in /app or /web
-        // $info = $this->runProcess("composer info | grep ez");
+        $info = $this->runProcess("composer info --working-dir=".$this->parent_workdir." | grep ez");
 
         $this->summary["eZPublish components:"] = $info."\n\n";
     }
@@ -196,7 +199,7 @@ class BugReportingUtils
     public function collectInstalledComposerJson()
     {
         $this->collectFiles(
-            str_replace("/app", "/vendor/composer", $this->app_root),
+            $this->site_root."/vendor/composer",
             array("json")
         );
     }
@@ -207,9 +210,8 @@ class BugReportingUtils
      */
     public function collectComposerJsonFile()
     {
-        $folder = str_replace("/app", "", $this->app_root);
 
-        $files_found = $this->findSpecificFile($folder, "composer.json");
+        $files_found = $this->findSpecificFile($this->site_root, "composer.json");
         if($files_found)
             $this->file_list = array_merge($this->file_list, $files_found);
     }
@@ -385,7 +387,7 @@ class BugReportingUtils
                 if(preg_match("/config|logs|ezpublish\_legacy/", $file)) {
                     $destinationDir = str_replace($this->app_root."/", "", $file);
                     if(preg_match("/ezpublish\_legacy/", $file)) {
-                        $destinationDir = str_replace(str_replace("/app", "", $this->app_root)."/", "", $file);
+                        $destinationDir = str_replace($this->site_root."/", "", $file);
                     }
                 }
                 $this->zipfile_destination[] = array("orig" => $file, "dest" => $destinationDir);
