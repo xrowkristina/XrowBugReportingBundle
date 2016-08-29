@@ -24,6 +24,7 @@ class BugReportingUtils
     private $file_list = [];
     private $container;
     private $stuff;
+    private $fromConsole = false;
 
 
     public function __construct($container)
@@ -49,6 +50,7 @@ class BugReportingUtils
     }
     public function runCommand($issue_number = false, $dest)
     {
+        $this->fromConsole = true;
         $this->parent_workdir = "./";
         $this->new_destination = $dest;
         $this->run($issue_number);
@@ -301,7 +303,10 @@ class BugReportingUtils
         phpinfo();
         $info = ob_get_contents();
         ob_end_clean();
-        return $info;
+        if($this->fromConsole)
+            return "<pre>" . $info . "</pre>";
+        else
+            return $info;
     }
 
     /**
