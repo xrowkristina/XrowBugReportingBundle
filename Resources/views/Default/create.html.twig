@@ -2,23 +2,24 @@
 
 {% block main %}
 
-	{% if not issue_number %}
-	Enter Issue/Ticket number
-	{% else %}
 	<h3>Zipfile generated succesfully!!</h3>
-	<ol>
-		<li>Download the Zipfile from the Web Debug Toolbar</li>
-		{% if not issue_number %}
-		{% elseif issue_number == 'none' %}
-		{% else %}
-		<li>Ticket/Issue: {{ issue_number }}</li>
-		{% endif %}
-	</ol>
-
-{# 	{{ dump(summary) }} #}
+    <p>This tool collects relevant data from your eZ installation and from your system.</p>
+    <p>Here is a sample list of what will be created:</p>
+    <dl class="dl-horizontal">
+        <dt>README.md</dt>                      <dd></dd>
+        <dt>QA.txt</dt>                     <dd>File with Questions&Answers</dd>
+        <dt>phpinfo.html</dt>                  <dd>Complete PHP information</dd>
+        <dt>SystemInformation.txt</dt>         <dd>PHP version, PHP Accelerator, etc information</dd>
+        <dt>InstalledComposer.json</dt>        <dd>Installed Composer</dd>
+        <dt>composer.json</dt>                 <dd>Current Composer</dd>
+        <dt>FolderPermissionRoot.txt</dt>      <dd>Permissions for folders in installed eZ-directory</dd>
+        <dt>FolderPermissionWeb.txt</dt>       <dd>Permissions for folders in /web directory</dd>
+        <dt>FolderPermissionApp.txt</dt>       <dd>Permissions for folders in /app directory</dd>
+        <dt>/config</dt>                       <dd>All relevante .yml files from /app/config  directory</dd>
+        <dt>/logs</dt>                         <dd>All relevante .log files from /app/logs  directory</dd>
+    </dl>
  	<p>
-		<a class="btn btn-warning" href="{{ path('_xrow_bug_reporting_home') }}">&laquo; Create new</a>
+		<a class="btn btn-warning" href="{{ path('_xrow_bug_reporting_home') }}">&laquo; Create again</a>
 	</p>
-	{% endif %}
 
 {% endblock %}

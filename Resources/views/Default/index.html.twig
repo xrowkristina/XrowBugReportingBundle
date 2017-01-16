@@ -4,7 +4,7 @@
 
     <h4>Generate ZIP:</h4>
     <p>This tool collects relevant data from your eZ installation and from your system.</p>
-{#  <p>Here is a sample list of what will be created:</p>
+    <p>Here is a sample list of what will be created:</p>
     <dl class="dl-horizontal">
         <dt>README.md</dt>                      <dd></dd>
         <dt>QA.txt</dt>                     <dd>File with Questions&Answers</dd>
@@ -17,7 +17,7 @@
         <dt>FolderPermissionApp.txt</dt>       <dd>Permissions for folders in /app directory</dd>
         <dt>/config</dt>                       <dd>All relevante .yml files from /app/config  directory</dd>
         <dt>/logs</dt>                         <dd>All relevante .log files from /app/logs  directory</dd>
-    </dl> #}
+    </dl>
     <form id="generate-ticket" method="get" action="{{ path('_xrow_bug_reporting_home') }}/create">
         <div class="form-inline">
             <button type="submit" class="btn btn-primary btn-enlarge">create</button>

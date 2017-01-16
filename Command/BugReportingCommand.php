@@ -22,7 +22,8 @@ class BugReportingCommand extends ContainerAwareCommand
                         'dest',
                         'd',
                         InputOption::VALUE_REQUIRED,
-                        'New ZIP file destination'
+                        'New ZIP file destination',
+                        './'
                         )
                 ))
             );
@@ -30,10 +31,7 @@ class BugReportingCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $createIn = false;
-
-        if ($input->getOption('dest'))
-            $createIn = $input->getOption('dest');
+        $createIn = $input->getOption('dest');
 
         if (!$createIn) {
             $text = 'ZIP file created in default directory';
@@ -41,7 +39,7 @@ class BugReportingCommand extends ContainerAwareCommand
             $text = 'ZIP file created in: '.$createIn;
         }
 
-        $utils = $this->getUtilsContainer()->runCommand(null, $createIn);
+        $utils = $this->getUtilsContainer()->runCommand($createIn);
 
         $output->writeln($text);
     }

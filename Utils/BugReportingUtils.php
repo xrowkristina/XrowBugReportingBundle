@@ -30,17 +30,15 @@ class BugReportingUtils
     public function __construct($container)
     {
         $this->container = $container;
-        $this->file_suffix = date("Y.m.d.Hi");
-        $this->zip_filename = $this->container->getParameter('xrow.bugreporting.zip_file');
+        $this->zip_filename = $this->container->getParameter('xrow.bugreporting.zip_file') . date("Y-m-d-Hi") . ".zip";
         $this->app_root = $this->container->getParameter('kernel.root_dir');
         $this->parent_workdir = "../";
         $this->destination_dir = $this->app_root . $this->container->getParameter('xrow.bugreporting.zip_folder');
         $this->site_root = preg_replace("/\/app|\/ezpublish/", "", $this->app_root);
     }
 
-    public function run($issue_number)
+    public function run()
     {
-        $this->issue_number = $issue_number;
         $this->cleanZipFolder();
         $this->getInfoData();
         $this->createAdditionalFiles();
@@ -48,12 +46,12 @@ class BugReportingUtils
         $this->createZipFile( $this->file_list );
         $this->cleanUpFolder();
     }
-    public function runCommand($issue_number = false, $dest)
+    public function runCommand($dest)
     {
         $this->fromConsole = true;
         $this->parent_workdir = "./";
         $this->new_destination = $dest;
-        $this->run($issue_number);
+        $this->run();
         if(is_dir($dest)) {
             $this->copyZipFile();
         }
@@ -74,7 +72,7 @@ class BugReportingUtils
         $this->createQAfile();
         $this->createReadmeFile();
 
-        $this->createTextFile("SystemInformation.txt", $this->summary);
+        $this->createTextFile("SystemInformation.txt", $this->getSummary());
         $this->createTextFile("phpinfo.html", $this->getPhpinfoHtml());
         $this->createTextFile("FolderPermissionRoot.txt", $this->runProcess("ls -lisa ".$this->app_root."/../"));
         $this->createTextFile("FolderPermissionApp.txt", $this->runProcess("ls -lisa ".$this->app_root));
@@ -407,12 +405,11 @@ class BugReportingUtils
      * Create ZIP file
      * @param  boolean $file_list list of files to add
      */
-    public function createZipFile($file_list = false)
+    private function createZipFile( $file_list = array() )
     {
         $zip = new ZipArchive;
-        $this->changeZipfileName();
         $this->filterZipfileList();
-        $zip_file = $this->destination_dir.'/'.$this->zip_filename;
+        $zip_file = $this->destination_dir.'/' . $this->getZipfileName();
 
         if ($zip->open($zip_file, ZIPARCHIVE::CREATE) === true) {
           foreach ($this->zipfile_destination as $zipfile) {
@@ -426,11 +423,9 @@ class BugReportingUtils
      * Filter to modify the ZIP file name
      * @return string   new file name
      */
-    public function changeZipfileName()
+    public function getZipfileName()
     {
-        $this->zip_filename  = str_replace(".zip", $this->file_suffix.".zip", $this->zip_filename);
-        if($this->issue_number !== 'none')
-            $this->zip_filename  = str_replace("-xrow-", "-xrow-issue".$this->issue_number."-", $this->zip_filename);
+        return $this->zip_filename;
     }
 
     public function copyZipFile()
@@ -464,14 +459,11 @@ class BugReportingUtils
      * Dump data/content into file
      * @param  string           $filename file to create
      * @param  string           $content  content
-     * @param  string|boolean   $suffix   file suffix
      * @return [type]                     [description]
      */
-    public function createTextFile($filename, $content = "", $suffix = false)
+    public function createTextFile($filename, $content = "")
     {
         $fs = new Filesystem();
-
-        $filename = $suffix ? str_replace(".", "_".$this->file_suffix.".", $filename) : $filename;
         $folder = $this->destination_dir;
 
             try {
@@ -527,14 +519,5 @@ class BugReportingUtils
                 unlink($file);
             }
         }
-    }
-
-    /**
-     * Custom debug function
-     */
-    private function debug( $arg = false) {
-        echo "<pre>";
-        print_r($arg);
-        echo "</pre>";
     }
 }

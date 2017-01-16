@@ -13,5 +13,4 @@ Q: Is your installation up to date?
 A: Yes
 
 Q: Was the error noticed on a production server, or a staging/dev environment?
-A: Yes
-
+A: Yes on production server.

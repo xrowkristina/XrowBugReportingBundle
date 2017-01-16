@@ -75,15 +75,4 @@ class XrowDataCollector extends DataCollector
     {
         return $this->data['zipfiles'];
     }
-
-    /**
-     * Custom debug function
-     */
-    private function debug( $arg = false)
-    {
-        echo "<pre>";
-        print_r($arg);
-        echo "</pre>";
-    }
-
 }

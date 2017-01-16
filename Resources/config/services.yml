@@ -1,6 +1,6 @@
 parameters:
-    xrow.bugreporting.zip_folder: "/cache/dev/eZbugReporting"
-    xrow.bugreporting.zip_file: "support-xrow-.zip"
+    xrow.bugreporting.zip_folder: "/cache/dev/bugreporting"
+    xrow.bugreporting.zip_file: "support-xrow-"
     filetypes:
       - md
       - html
