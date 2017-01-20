@@ -22,7 +22,7 @@ What you will find inside the ZIP:
 ### Usage:
 
 ```php
-$ php ezpublish/console bugreporting:create --dest=destination-dir
+$ app/console bugreporting:create --dest=destination-dir
 ```
 
 ### Default destination directory is:

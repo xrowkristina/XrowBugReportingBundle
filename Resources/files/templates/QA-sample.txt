@@ -1,16 +1,21 @@
 ======================================================
-    		xrow System Information Files
-    			- QA eZ System Bug Report 
+   Questions and Answers for a eZ Systems bug report 
 ======================================================
 
 Q: Do you clear cache?
 A: Yes
 
 Q: Do you have cluster in use?
-A: Yes
+A: Yes. Please look into the corresponding configutation file.
 
 Q: Is your installation up to date?
-A: Yes
+A: Yes. Please see installed.json
 
 Q: Was the error noticed on a production server, or a staging/dev environment?
 A: Yes on production server.
+
+Q: How was your system installed?
+A: Please see the file "build"
+
+Q: Do you use version master?
+A: We never work with unstable releases from eZ Systems. Please see the corresponding installed.json.

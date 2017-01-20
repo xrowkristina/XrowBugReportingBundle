@@ -86,7 +86,7 @@ class BugReportingUtils
         $this->collectComposerJsonFile();
         $this->collectLogFiles();
         $this->collectEzLegacyFiles();
-
+        $this->collectBuildFile();
         $this->collectFiles($this->destination_dir, array("md", "txt", "html"));
     }
 
@@ -191,7 +191,17 @@ class BugReportingUtils
         if($files_found)
             $this->file_list = array_merge($this->file_list, $files_found);
     }
-
+    /**
+     * Collect all .json from /app and /vendor/composer folder
+     * @return [type] [description]
+     */
+    public function collectBuildFile()
+    {
+        if( file_exists($this->site_root . "/build") )
+        {
+            $this->file_list[] = "build";
+        }
+    }
     /**
      * Collect all .json from /app and /vendor/composer folder
      * @return [type] [description]
