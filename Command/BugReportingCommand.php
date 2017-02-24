@@ -14,7 +14,7 @@ class BugReportingCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('bugreport:create')
+            ->setName('xrow:bugreport:create')
             ->setDescription('Generate a ZIP file including alle information for a bug report.')
             ->setDefinition(
                 new InputDefinition(array(
