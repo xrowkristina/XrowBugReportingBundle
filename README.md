@@ -19,6 +19,16 @@ What you will find inside the ZIP:
 - __/logs__ folder with all relevant .log files from /app/logs  directory
 - __/ezpublish_legacy/settings__ folder with all relevant settings for eZ Publish 5.4
 
+### Installation:
+
+Run:
+```bash
+$ composer require xrow/bug-reporting-bundle
+```
+In app/AppKernel.php add
+```php
+            new Xrow\BugReportingBundle\XrowBugReportingBundle(),
+```
 ### Usage:
 
 ```php
