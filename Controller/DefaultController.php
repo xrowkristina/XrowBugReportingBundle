@@ -7,16 +7,18 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Response;
 use xrow\BugReportingBundle\Utils\BugReportingUtils;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class DefaultController extends Controller
 {
     /**
-     * { function_description }
-     *
-     * @return     <type>  ( description_of_the_return_value )
+     * @Route("/ezbugreport/create", name="bugreport_create")
      */
     public function createAction()
     {
+        if ( $this->getParameter("kernel.environment") != "dev" ){
+            throw $this->createAccessDeniedException('You cannot access this page!');
+        }
         $utils = $this->container->get('xrow.bug_reporting_utils');
         $utils->cleanZipFolder();
         $utils->run();
@@ -26,11 +28,13 @@ class DefaultController extends Controller
 
     /**
      * Creates a binary response for filename with complete path
-     * @param  string $filename [description]
-     * @return [type]           [description]
+     * @Route("/ezbugreport/download", name="bugreport_download")
      */
-    public function downloadAction($filename)
+    public function downloadAction()
     {
+        if ( $this->getParameter("kernel.environment") != "dev" ){
+            throw $this->createAccessDeniedException('You cannot access this page!');
+        }
     	$utils = $this->container->get('xrow.bug_reporting_utils');
         try {
         	$utils->cleanZipFolder();
